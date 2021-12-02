@@ -69,15 +69,15 @@ public class Weather {
 
         String locationUrl = "https://ipinfo.io/" + ipAddress + "/json?token=" + ApiKey.getLocationKey();
 
-        CloseableHttpClient client1 = HttpClients.createDefault();
-        HttpGet get1 = new HttpGet(locationUrl);
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpGet get = new HttpGet(locationUrl);
         CloseableHttpResponse response;
 
         String city = null;
 
         try {
 
-            response = client1.execute(get1);
+            response = client.execute(get);
             HttpEntity entity1 = response.getEntity();
 
             String entityToString = EntityUtils.toString(entity1);
