@@ -9,17 +9,43 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Weather {
-    public static double getCurrentTemperature() throws IOException {
 
-        String url = "https://api.openweathermap.org/data/2.5/weather?q=" + getLocation() + "&units=metric&appid=" + ApiKey.getWeatherKey();
+    static String location;
+    static double currentTemperature;
+
+    public static void setTimer() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    updateWeather();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 0, 3600000);
+    }
+
+    public static void updateWeather() throws IOException {
+        getLocation();
+        getCurrentTemperature();
+    }
+
+    public static void getCurrentTemperature() {
+
+        String url = "https://api.openweathermap.org/data/2.5/weather?q=" + location +
+                "&units=metric&appid=" + ApiKey.getWeatherKey();
 
         CloseableHttpClient client = HttpClients.createDefault();
         HttpGet get = new HttpGet(url);
         CloseableHttpResponse response;
 
-        double temperature = 0.0;
+        double temperature = 0;
 
         try {
 
@@ -34,9 +60,10 @@ public class Weather {
             ioe.printStackTrace();
         }
 
-        return temperature;
+        currentTemperature = temperature;
+
     }
-    public static String getLocation() throws IOException {
+    public static void getLocation() throws IOException {
 
         String ipAddress = getIP();
 
@@ -61,7 +88,7 @@ public class Weather {
             e.printStackTrace();
         }
 
-        return city;
+        location = city;
     }
     public static String getIP() throws IOException {
 

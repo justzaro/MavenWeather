@@ -14,15 +14,11 @@ public class ClientHandler extends Thread {
     @Override
     public void run() {
 
-        String location = null;
-        String weather = null;
+        String location;
+        String weather;
 
-        try {
-            location = "Location: " + Weather.getLocation();
-            weather = "Temperature: " + Math.round(Weather.getCurrentTemperature()) + " Celsius";
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        location = "Location: " + Weather.location;
+        weather = "Temperature: " + Math.round(Weather.currentTemperature) + " Celsius";
 
         clientOutput.println(location);
         clientOutput.println(weather);
