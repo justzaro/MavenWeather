@@ -78,9 +78,9 @@ public class Weather {
         try {
 
             response = client.execute(get);
-            HttpEntity entity1 = response.getEntity();
+            HttpEntity entity = response.getEntity();
 
-            String entityToString = EntityUtils.toString(entity1);
+            String entityToString = EntityUtils.toString(entity);
 
             city = new JSONObject(entityToString).getString("city");
 
